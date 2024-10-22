@@ -105,6 +105,12 @@
             transform: scale(1.05);
         }
 
+        #game_frame {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -163,6 +169,9 @@
         <button class="launch-btn" onclick="Start()">Launch</button>
     </div>
 
+    <!-- The game frame container -->
+    <div id="game_frame"></div>
+
     <script type="text/javascript">
         let selectedPack = null;
 
@@ -181,7 +190,11 @@
                 return;
             }
 
+            // Hide launcher and display game frame
             document.getElementById("launcher").style.display = "none";
+            const gameFrame = document.getElementById("game_frame");
+            gameFrame.style.display = "block";
+
             localStorage.LastPack = selectedPack;
 
             const relayId = Math.floor(Math.random() * 3);
@@ -206,9 +219,11 @@
                 mainMenu: { splashes: [], eaglerLogo: false }
             };
 
+            // Call main to initialize the game
             main();
         }
 
+        // Select the previously chosen pack
         if (localStorage.LastPack) {
             document.querySelector(`[data-pack="${localStorage.LastPack}"]`).classList.add('active');
             selectedPack = localStorage.LastPack;
