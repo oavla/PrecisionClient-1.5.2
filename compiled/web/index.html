@@ -2,219 +2,199 @@
 <html>
 
 <head>
-    <title>Precision Client | Legacy</title>
-    <meta charset="UTF-8" />
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." name="description" />
-    <meta content="//precisionclient.vercel.app" name="url" />
-    <meta content="EtcherFX" name="author" />
-    <meta content="Precision Client" property="og:title" />
-    <meta content="en-US" property="og:locale" />
-    <meta content="website" property="og:type" />
-    <meta content="//precisionclient.vercel.app" property="og:url" />
-    <!--meta content="IMAGE" property="og:image"/>-->
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." property="og:description" />
-    <script type="text/javascript" src="eagswebrtc.js"></script>
-    <script type="text/javascript" src="classes.js"></script>
-    <script async src="https://arc.io/widget.min.js#pchPqjfw"></script>
-    <style>
-        @font-face {
-            font-family: "Product Sans";
-            src: url(ProductSans.ttf);
-        }
+	<title>Precision Client | Legacy</title>
+	<meta charset="UTF-8" />
+	<meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
+		name="description" />
+	<meta content="//precisionclient.vercel.app" name="url" />
+	<meta content="EtcherFX" name="author" />
+	<meta content="Precision Client" property="og:title" />
+	<meta content="en-US" property="og:locale" />
+	<meta content="website" property="og:type" />
+	<meta content="//precisionclient.vercel.app" property="og:url" />
+	<!--meta content="IMAGE" property="og:image"/>-->
+	<meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
+		property="og:description" />
+	<script type="text/javascript" src="eagswebrtc.js"></script>
+	<script type="text/javascript" src="classes.js"></script>
+	<script async src="https://arc.io/widget.min.js#pchPqjfw"></script>
+	<style>
+		@font-face {
+			font-family: "Product Sans";
+			src: url(ProductSans.ttf);
+		}
 
-        body {
-            margin: 0;
-            width: 100vw;
-            height: 100vh;
-            font-family: 'Product Sans';
-            background-color: #0d0c0c; /* Added for better contrast */
-        }
+		html {
+			color: #fff;
+		}
 
-        html {
-            color: #fff;
-        }
+		body {
+			margin: 0;
+			width: 100vw;
+			height: 100vh;
+			font-family: 'Product Sans';
+		}
 
-        .starter {
-            border-radius: 5px;
-            border: 1px solid #fff;
-            background-color: #0d0c0c;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
+		.gameframe {
+			background-image: url("bg.png");
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
 
-        .starter:hover {
-            background-color: #1a1a1a;
-            transform: scale(1.05);
-        }
+		#Selection {
+			display: inline-block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			text-align: center;
+		}
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            border-radius: 5px;
-            border: 1px solid #fff;
-            background-color: #0d0c0c;
-            color: #fff;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 200px; /* Fixed width for consistency */
-        }
+		h1, h3 {
+			margin: 0;
+		}
 
-        .dropdown:hover {
-            background-color: #1a1a1a;
-        }
+		.starter {
+			border-radius: 5px;
+			border: 1px solid #fff;
+			background-color: #0d0c0c;
+			color: #fff;
+			padding: 10px 20px;
+			cursor: pointer;
+			font-size: 16px;
+		}
 
-        .dropdown select {
-            appearance: none;
-            background: transparent;
-            border: none;
-            color: inherit;
-            font-size: inherit;
-            cursor: pointer;
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-        }
+		.dropdown {
+			position: relative;
+			display: inline-block;
+			border-radius: 5px;
+			border: 1px solid #fff;
+			background-color: #1c1c1c;
+			color: #fff;
+			font-size: 16px;
+			padding: 10px;
+			cursor: pointer;
+			appearance: none;
+			background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>');
+			background-repeat: no-repeat;
+			background-position: right 10px center;
+		}
 
-        .dropdown select:focus {
-            outline: none;
-        }
+		.dropdown:focus {
+			outline: none;
+			border-color: #ffcc00;
+		}
 
-        .dropdown::after {
-            content: '▼';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #fff;
-            pointer-events: none; /* Prevent click interference */
-            transition: transform 0.2s;
-        }
+		.dropdown option {
+			background-color: #1c1c1c;
+			color: #fff;
+		}
 
-        .dropdown select:focus + .dropdown::after {
-            transform: translateY(-50%) rotate(180deg); /* Rotate arrow on focus */
-        }
-
-        .gameframe {
-            background-image: url("bg.png");
-            background-size: cover;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column; /* Center items vertically */
-        }
-
-        h1, h3 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-    </style>
+		.dropdown option:hover {
+			background-color: #ffcc00;
+		}
+	</style>
 </head>
 
 <body id="game_frame" class="gameframe">
-    <div id="Selection" style="display: inline-block;">
-        <h1>Precision Client | Legacy</h1>
-        <h3>Select a texture pack:</h3>
-        <div class="dropdown">
-            <select id="Packs">
-                <option>-- Choose one --</option>
-                <option value="defaultold">Default Old</option>
-                <option value="defaultnew">Default 1.17+</option>
-                <option value="bombies">Bombies 180k</option>
-                <option value="bones">Bare Bones</option>
-                <option value="modifiednew">Modified 1.17+</option>
-                <option value="miamiprivate">Miami Private</option>
-                <option value="nebula">Nebula</option>
-                <option value="rhedd">Rhedd</option>
-                <option value="ricefault">Ricefault</option>
-                <option value="tightfault">Tightfault</option>
-                <option value="walifault">Walifault</option>
-            </select>
-        </div>
-        <br /><br />
-        <input class="starter" type="button" value="Launch" onclick="Start();" />
-    </div>
-    <script type="text/javascript">
-        if (document.location.href.startsWith("file:")) {
-            alert("You cannot 'open' this file in your browser, the code doesn't work. Upload this folder to your HTTP(s) server and access it via the internet to launch the stable-download game. This is not a bug, please read the documentation.");
-        } else {
-            var PackSelect = document.getElementById("Packs");
-            function Start() {
-                if (PackSelect.selectedIndex !== 0) {
-                    var Selected = PackSelect.options[PackSelect.selectedIndex].value;
-                    document.getElementById("Selection").style.display = "none";
-                    localStorage.LastPack = Selected;
-                    const relayId = Math.floor(Math.random() * 3);
-                    window.eaglercraftOpts = {
-                        container: "game_frame",
-                        assetsURI: `packs/${Selected}.epk`,
-                        serverWorkerURI: "worker_bootstrap.js",
-                        worldsFolder: "MAIN",
-                        assetOverrides: {
-                            "records/wait.mp3": "wait.mp3",
-                            "records/mellohi.mp3": "https://stream.nightride.fm/chillsynth.m4a",
-                            "records/far.mp3": "https://stream.nightride.fm/nightride.m4a",
-                            "records/cat.mp3": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1",
-                            "records/ward.mp3": "http://fr4.1mix.co.uk:8000/192h",
-                            "records/strad.mp3": "http://listen.011fm.com:8028/stream15",
-                            "records/blocks.mp3": "https://www.ophanim.net:8444/s/9780",
-                            "records/13.mp3": "https://s2.radio.co/s2b2b68744/listen",
-                            "credits.txt": "assetoverrides/credits.txt",
-                            "precision/gui.png": "assetoverrides/precision/gui.png",
-                            "precision/gui2.png": "assetoverrides/precision/gui2.png",
-                            "precision/guismall.png": "assetoverrides/precision/guismall.png",
-                            "precision/logo.png": "assetoverrides/precision/logo.png",
-                            "precision/precision.png": "assetoverrides/precision/precision.png",
-                            "precision/precision2.png": "assetoverrides/precision/precision2.png",
-                            "lang/en_US.lang": "assetoverrides/lang/en_US.lang",
-                            "gui/demo_bg.png": "assetoverrides/gui/demo_bg.png",
-                            "title/bg/panorama0.png": "assetoverrides/title/bg/panorama0.png",
-                            "title/bg/panorama1.png": "assetoverrides/title/bg/panorama1.png",
-                            "title/bg/panorama2.png": "assetoverrides/title/bg/panorama2.png",
-                            "title/bg/panorama3.png": "assetoverrides/title/bg/panorama3.png",
-                            "title/bg/panorama4.png": "assetoverrides/title/bg/panorama4.png",
-                            "title/bg/panorama5.png": "assetoverrides/title/bg/panorama5.png"
-                        },
-                        servers: [
-                            { serverName: "A*spixel", serverAddress: "wss://web.asspixel.net/CAPixel/", hideAddress: true },
-                            { serverName: "VanillaCraft", serverAddress: "wss://play.vanillacraftsmp.org/", hideAddress: true },
-                            { serverName: "ArchMC", serverAddress: "wss://web.arch.lol/join", hideAddress: true },
-                            { serverName: "Ayunboom", serverAddress: "wss://sus.shhnowisnottheti.me", hideAddress: true },
-                            { serverName: "Aeon Network", serverAddress: "wss://aeon-network.net/aeon", hideAddress: true },
-                            { serverName: "Sealcraft", serverAddress: "wss://sealcraft.ddns.net:442/servers", hideAddress: true }
-                        ],
-                        relays: [
-                            { addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
-                            { addr: "wss://relay.lax1dude.net/", name: "lax1dude relay #2", primary: relayId == 1 },
-                            { addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
-                        ],
-                        mainMenu: {
-                            splashes: [], eaglerLogo: false
-                        }
-                    };
-                    (function () {
-                        var q = window.location.search;
-                        if (typeof q === 'string' && q.startsWith("?")) {
-                            q = new URLSearchParams(q);
-                            var s = q.get("server");
-                            if (s) window.minecraftOpts.push(s);
-                        }
-                    })();
-                    main();
-                } else
-                    alert("You need to select a pack");
-            }
-        }
-        if (localStorage.LastPack)
-            for (Pack of PackSelect.children)
-                if (Pack.value === localStorage.LastPack) {
-                    Pack.selected = "selected";
-                    break;
-                }
-    </script>
+	<div id="Selection">
+		<h1>Precision Client | Legacy</h1>
+		<h3>Select a texture pack:</h3>
+		<select id="Packs" class="dropdown">
+			<option>-- Choose one --</option>
+			<option value="defaultold">Default Old</option>
+			<option value="defaultnew">Default 1.17+</option>
+			<option value="bombies">Bombies 180k</option>
+			<option value="bones">Bare Bones</option>
+			<option value="modifiednew">Modified 1.17+</option>
+			<option value="miamiprivate">Miami Private</option>
+			<option value="nebula">Nebula</option>
+			<option value="rhedd">Rhedd</option>
+			<option value="ricefault">Ricefault</option>
+			<option value="tightfault">Tightfault</option>
+			<option value="walifault">Walifault</option>
+		</select>
+		<br /><br />
+		<input class="starter" type="button" value="Launch" onclick="Start();" />
+	</div>
+	<script type="text/javascript">
+		if (document.location.href.startsWith("file:")) {
+			alert("You cannot 'open' this file in your browser, the code doesn't work. Upload this folder to your HTTP(s) server and access it via the internet to launch the stable-download game. This is not a bug, please read the documentation.");
+		} else {
+			var PackSelect = document.getElementById("Packs");
+			function Start() {
+				if (PackSelect.selectedIndex !== 0) {
+					var Selected = PackSelect.options[PackSelect.selectedIndex].value;
+					document.getElementById("Selection").style.display = "none";
+					localStorage.LastPack = Selected;
+					const relayId = Math.floor(Math.random() * 3);
+					window.eaglercraftOpts = {
+						container: "game_frame",
+						assetsURI: `packs/${Selected}.epk`,
+						serverWorkerURI: "worker_bootstrap.js",
+						worldsFolder: "MAIN",
+						assetOverrides: {
+							"records/wait.mp3": "wait.mp3",
+							"records/mellohi.mp3": "https://stream.nightride.fm/chillsynth.m4a",
+							"records/far.mp3": "https://stream.nightride.fm/nightride.m4a",
+							"records/cat.mp3": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1",
+							"records/ward.mp3": "http://fr4.1mix.co.uk:8000/192h",
+							"records/strad.mp3": "http://listen.011fm.com:8028/stream15",
+							"records/blocks.mp3": "https://www.ophanim.net:8444/s/9780",
+							"records/13.mp3": "https://s2.radio.co/s2b2b68744/listen",
+							"credits.txt": "assetoverrides/credits.txt",
+							"precision/gui.png": "assetoverrides/precision/gui.png",
+							"precision/gui2.png": "assetoverrides/precision/gui2.png",
+							"precision/guismall.png": "assetoverrides/precision/guismall.png",
+							"precision/logo.png": "assetoverrides/precision/logo.png",
+							"precision/precision.png": "assetoverrides/precision/precision.png",
+							"precision/precision2.png": "assetoverrides/precision/precision2.png",
+							"lang/en_US.lang": "assetoverrides/lang/en_US.lang",
+							"gui/demo_bg.png": "assetoverrides/gui/demo_bg.png",
+							"title/bg/panorama0.png": "assetoverrides/title/bg/panorama0.png",
+							"title/bg/panorama1.png": "assetoverrides/title/bg/panorama1.png",
+							"title/bg/panorama2.png": "assetoverrides/title/bg/panorama2.png",
+							"title/bg/panorama3.png": "assetoverrides/title/bg/panorama3.png",
+							"title/bg/panorama4.png": "assetoverrides/title/bg/panorama4.png",
+							"title/bg/panorama5.png": "assetoverrides/title/bg/panorama5.png"
+						},
+						servers: [
+							{ serverName: "A*spixel", serverAddress: "wss://web.asspixel.net/CAPixel/", hideAddress: true },
+							{ serverName: "VanillaCraft", serverAddress: "wss://play.vanillacraftsmp.org/", hideAddress: true },
+							{ serverName: "ArchMC", serverAddress: "wss://web.arch.lol/join", hideAddress: true },
+							{ serverName: "Ayunboom", serverAddress: "wss://sus.shhnowisnottheti.me", hideAddress: true },
+							{ serverName: "Aeon Network", serverAddress: "wss://aeon-network.net/aeon", hideAddress: true },
+							{ serverName: "Sealcraft", serverAddress: "wss://sealcraft.ddns.net:442/servers", hideAddress: true }
+						],
+						relays: [
+							{ addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
+							{ addr: "wss://relay.lax1dude.net/", name: "lax1dude relay #2", primary: relayId == 1 },
+							{ addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
+						],
+						mainMenu: {
+							splashes: [], eaglerLogo: false
+						}
+					};
+					(function () {
+						var q = window.location.search;
+						if (typeof q === 'string' && q.startsWith("?")) {
+							q = new URLSearchParams(q);
+							var s = q.get("server");
+							if (s) window.minecraftOpts.push(s);
+						}
+					})();
+					main();
+				} else
+					alert("You need to select a pack");
+			}
+		}
+		if (localStorage.LastPack)
+			for (Pack of PackSelect.children)
+				if (Pack.value === localStorage.LastPack) {
+					Pack.selected = "selected";
+					break;
+				}
+	</script>
 </body>
 
 </html>
