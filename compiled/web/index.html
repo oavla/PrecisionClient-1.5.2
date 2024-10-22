@@ -2,42 +2,36 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
-        name="description" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Precision Client | Legacy</title>
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." name="description" />
     <meta content="//precisionclient.vercel.app" name="url" />
     <meta content="EtcherFX" name="author" />
     <meta content="Precision Client" property="og:title" />
     <meta content="en-US" property="og:locale" />
     <meta content="website" property="og:type" />
     <meta content="//precisionclient.vercel.app" property="og:url" />
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
-        property="og:description" />
-    <title>Precision Client | Legacy</title>
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." property="og:description" />
+    <script type="text/javascript" src="eagswebrtc.js"></script>
+    <script type="text/javascript" src="classes.js"></script>
+    <script async src="https://arc.io/widget.min.js#pchPqjfw"></script>
     <style>
         @font-face {
             font-family: "Product Sans";
             src: url(ProductSans.ttf);
         }
 
-        * {
-            box-sizing: border-box;
+        body, html {
             margin: 0;
             padding: 0;
-        }
-
-        body {
-            font-family: 'Product Sans', sans-serif;
-            margin: 0;
             width: 100vw;
             height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0d0c0c, #333);
-            color: white;
+            font-family: 'Product Sans', sans-serif;
+            background-image: url("bg.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         #launcher {
@@ -45,105 +39,57 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(13, 12, 12, 0.85);
             border-radius: 15px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            animation: fadeIn 1s ease-out;
+            padding: 20px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            animation: slideIn 1s ease-out;
-        }
-
-        h3 {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            animation: slideIn 1.2s ease-out;
-        }
-
-        .texture-pack {
-            padding: 15px 25px;
-            margin: 10px;
-            border: 2px solid #fff;
-            border-radius: 10px;
-            background-color: #1c1c1c;
+        h1, h3 {
             color: #fff;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: transform 0.2s, background-color 0.3s, color 0.3s;
+            margin: 0 0 15px 0;
         }
 
-        .texture-pack:hover {
-            transform: scale(1.05);
+        .pack-btn {
+            padding: 10px 20px;
+            margin: 10px;
+            color: white;
             background-color: #333;
+            border: 1px solid #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
         }
 
-        .texture-pack.active {
-            background-color: #555;
-            color: #ddd;
+        .pack-btn:hover {
+            background-color: #444;
+            transform: scale(1.05);
         }
 
         .launch-btn {
-            padding: 15px 40px;
+            padding: 15px 30px;
+            background-color: #0d6efd;
+            color: #fff;
             border: none;
-            border-radius: 10px;
-            background-color: #00b894;
-            color: white;
-            font-size: 1.2rem;
+            border-radius: 15px;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            margin-top: 20px;
-            animation: buttonBounce 1.5s infinite ease-in-out;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .launch-btn:hover {
-            background-color: #00a17e;
-            transform: scale(1.05);
+            background-color: #0a58ca;
+            transform: scale(1.1);
         }
 
-        #game_frame {
-            width: 100vw;
-            height: 100vh;
+        .hidden {
             display: none;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes buttonBounce {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
     </style>
 </head>
 
@@ -152,35 +98,39 @@
         <h1>Precision Client | Legacy</h1>
         <h3>Select a texture pack:</h3>
 
-        <div id="packButtons">
-            <button class="texture-pack" data-pack="defaultold">Default Old</button>
-            <button class="texture-pack" data-pack="defaultnew">Default 1.17+</button>
-            <button class="texture-pack" data-pack="bombies">Bombies 180k</button>
-            <button class="texture-pack" data-pack="bones">Bare Bones</button>
-            <button class="texture-pack" data-pack="modifiednew">Modified 1.17+</button>
-            <button class="texture-pack" data-pack="miamiprivate">Miami Private</button>
-            <button class="texture-pack" data-pack="nebula">Nebula</button>
-            <button class="texture-pack" data-pack="rhedd">Rhedd</button>
-            <button class="texture-pack" data-pack="ricefault">Ricefault</button>
-            <button class="texture-pack" data-pack="tightfault">Tightfault</button>
-            <button class="texture-pack" data-pack="walifault">Walifault</button>
+        <div id="packsContainer">
+            <button class="pack-btn" data-pack="defaultold">Default Old</button>
+            <button class="pack-btn" data-pack="defaultnew">Default 1.17+</button>
+            <button class="pack-btn" data-pack="bombies">Bombies 180k</button>
+            <button class="pack-btn" data-pack="bones">Bare Bones</button>
+            <button class="pack-btn" data-pack="modifiednew">Modified 1.17+</button>
+            <button class="pack-btn" data-pack="miamiprivate">Miami Private</button>
+            <button class="pack-btn" data-pack="nebula">Nebula</button>
+            <button class="pack-btn" data-pack="rhedd">Rhedd</button>
+            <button class="pack-btn" data-pack="ricefault">Ricefault</button>
+            <button class="pack-btn" data-pack="tightfault">Tightfault</button>
+            <button class="pack-btn" data-pack="walifault">Walifault</button>
         </div>
+
+        <br />
 
         <button class="launch-btn" onclick="Start()">Launch</button>
     </div>
 
-    <!-- The game frame container -->
-    <div id="game_frame"></div>
+    <div id="game_frame" class="hidden"></div>
 
     <script type="text/javascript">
-        let selectedPack = null;
+        var selectedPack = null;
 
-        // Handle texture pack button clicks
-        document.querySelectorAll('.texture-pack').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.texture-pack').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                selectedPack = button.getAttribute('data-pack');
+        // Add event listeners to buttons
+        document.querySelectorAll('.pack-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                selectedPack = this.getAttribute('data-pack');
+                localStorage.LastPack = selectedPack;
+
+                // Highlight the selected button
+                document.querySelectorAll('.pack-btn').forEach(btn => btn.style.backgroundColor = '#333');
+                this.style.backgroundColor = '#0d6efd';
             });
         });
 
@@ -193,9 +143,7 @@
             // Hide launcher and display game frame
             document.getElementById("launcher").style.display = "none";
             const gameFrame = document.getElementById("game_frame");
-            gameFrame.style.display = "block";
-
-            localStorage.LastPack = selectedPack;
+            gameFrame.classList.remove("hidden");
 
             const relayId = Math.floor(Math.random() * 3);
             window.eaglercraftOpts = {
@@ -219,14 +167,23 @@
                 mainMenu: { splashes: [], eaglerLogo: false }
             };
 
-            // Call main to initialize the game
-            main();
+            try {
+                main();
+            } catch (error) {
+                console.error("Error starting the game:", error);
+            }
         }
 
-        // Select the previously chosen pack
-        if (localStorage.LastPack) {
-            document.querySelector(`[data-pack="${localStorage.LastPack}"]`).classList.add('active');
-            selectedPack = localStorage.LastPack;
+        // Load last selected pack
+        window.onload = function() {
+            if (localStorage.LastPack) {
+                selectedPack = localStorage.LastPack;
+                document.querySelectorAll('.pack-btn').forEach(button => {
+                    if (button.getAttribute('data-pack') === selectedPack) {
+                        button.style.backgroundColor = '#0d6efd';
+                    }
+                });
+            }
         }
     </script>
 </body>
