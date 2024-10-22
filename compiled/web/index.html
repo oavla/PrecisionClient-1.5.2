@@ -1,160 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-	<title>Precision Client | Legacy</title>
-	<meta charset="UTF-8" />
-	<meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
-		name="description" />
-	<meta content="//precisionclient.vercel.app" name="url" />
-	<meta content="EtcherFX" name="author" />
-	<meta content="Precision Client" property="og:title" />
-	<meta content="en-US" property="og:locale" />
-	<meta content="website" property="og:type" />
-	<meta content="//precisionclient.vercel.app" property="og:url" />
-	<!--meta content="IMAGE" property="og:image"/>-->
-	<meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
-		property="og:description" />
-	<script type="text/javascript" src="eagswebrtc.js"></script>
-	<script type="text/javascript" src="classes.js"></script>
-	<script async src="https://arc.io/widget.min.js#pchPqjfw"></script>
-	<style>
-		@font-face {
-			font-family: "Product Sans";
-			src: url(ProductSans.ttf);
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
+        name="description" />
+    <meta content="//precisionclient.vercel.app" name="url" />
+    <meta content="EtcherFX" name="author" />
+    <meta content="Precision Client" property="og:title" />
+    <meta content="en-US" property="og:locale" />
+    <meta content="website" property="og:type" />
+    <meta content="//precisionclient.vercel.app" property="og:url" />
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
+        property="og:description" />
+    <title>Precision Client | Legacy</title>
+    <style>
+        @font-face {
+            font-family: "Product Sans";
+            src: url(ProductSans.ttf);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Product Sans', sans-serif;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0d0c0c, #333);
+            color: white;
+        }
+
+        #launcher {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: slideIn 1s ease-out;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            animation: slideIn 1.2s ease-out;
+        }
+
+        .texture-pack {
+            padding: 15px 25px;
+            margin: 10px;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: #1c1c1c;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.2s, background-color 0.3s, color 0.3s;
+        }
+
+        .texture-pack:hover {
+            transform: scale(1.05);
+            background-color: #333;
+        }
+
+        .texture-pack.active {
+            background-color: #555;
+            color: #ddd;
+        }
+
+        .launch-btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            background-color: #00b894;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 20px;
+            animation: buttonBounce 1.5s infinite ease-in-out;
+        }
+
+        .launch-btn:hover {
+            background-color: #00a17e;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes buttonBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+    </style>
 </head>
 
-<body style="margin: 0; width: 100vw; height: 100vh; font-family:
-'Product Sans'" id="game_frame" class="gameframe">
-	<div id="Selection"
-		style="display: inline-block; position: absolute; top:50%; left: 50%; transform: translate(-50%, -50%)">
-		<style>
-			html {
-				color: #fff;
-			}
+<body>
+    <div id="launcher">
+        <h1>Precision Client | Legacy</h1>
+        <h3>Select a texture pack:</h3>
 
-			.starter {
-				border-radius: 5px;
-				border: 1px solid #fff;
-				background-color: #0d0c0c;
-				color: #fff;
-			}
+        <div id="packButtons">
+            <button class="texture-pack" data-pack="defaultold">Default Old</button>
+            <button class="texture-pack" data-pack="defaultnew">Default 1.17+</button>
+            <button class="texture-pack" data-pack="bombies">Bombies 180k</button>
+            <button class="texture-pack" data-pack="bones">Bare Bones</button>
+            <button class="texture-pack" data-pack="modifiednew">Modified 1.17+</button>
+            <button class="texture-pack" data-pack="miamiprivate">Miami Private</button>
+            <button class="texture-pack" data-pack="nebula">Nebula</button>
+            <button class="texture-pack" data-pack="rhedd">Rhedd</button>
+            <button class="texture-pack" data-pack="ricefault">Ricefault</button>
+            <button class="texture-pack" data-pack="tightfault">Tightfault</button>
+            <button class="texture-pack" data-pack="walifault">Walifault</button>
+        </div>
 
-			.dropdown {
-				position: relative;
-				display: inline-block;
-				border-radius: 5px;
-				border: 1px solid #fff;
-				background-color: #0d0c0c;
-				color: #fff;
-			}
+        <button class="launch-btn" onclick="Start()">Launch</button>
+    </div>
 
-			.gameframe {
-				background-image: url("bg.png");
-				background-size: cover;
-				background-repeat: no-repeat;
-			}
-		</style>
-		<h1>Precision Client | Legacy</h1>
-		<h3>Select a texture pack:</h3>
-		<select id="Packs" class="dropdown">
-			<option>-- Choose one --</option>
-			<option value="defaultold">Default Old</option>
-			<option value="defaultnew">Default 1.17+</option>
-			<option value="bombies">Bombies 180k</option>
-			<option value="bones">Bare Bones</option>
-			<option value="modifiednew">Modified 1.17+</option>
-			<option value="miamiprivate">Miami Private</option>
-			<option value="nebula">Nebula</option>
-			<option value="rhedd">Rhedd</option>
-			<option value="ricefault">Ricefault</option>
-			<option value="tightfault">Tightfault</option>
-			<option value="walifault">Walifault</option>
-		</select>
-		<br /><br />
-		<input class="starter" type="button" value="Launch" onclick="Start();" />
-	</div>
-	<script type="text/javascript">
-		if (document.location.href.startsWith("file:")) {
-			alert("You cannot 'open' this file in your browser, the code doesn't work. Upload this folder to your HTTP(s) server and access it via the internet to launch the stable-download game. This is not a bug, please read the documentation.");
-		} else {
-			var PackSelect = document.getElementById("Packs");
-			function Start() {
-				if (PackSelect.selectedIndex !== 0) {
-					var Selected = PackSelect.options[PackSelect.selectedIndex].value;
-					document.getElementById("Selection").style.display = "none";
-					localStorage.LastPack = Selected;
-					const relayId = Math.floor(Math.random() * 3);
-					window.eaglercraftOpts = {
-						container: "game_frame",
-						assetsURI: `packs/${Selected}.epk`,
-						serverWorkerURI: "worker_bootstrap.js",
-						worldsFolder: "MAIN",
-						assetOverrides: {
-							"records/wait.mp3": "wait.mp3",
-							"records/mellohi.mp3": "https://stream.nightride.fm/chillsynth.m4a",
-							"records/far.mp3": "https://stream.nightride.fm/nightride.m4a",
-							"records/cat.mp3": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1",
-							"records/ward.mp3": "http://fr4.1mix.co.uk:8000/192h",
-							"records/strad.mp3": "http://listen.011fm.com:8028/stream15",
-							"records/blocks.mp3": "https://www.ophanim.net:8444/s/9780",
-							"records/13.mp3": "https://s2.radio.co/s2b2b68744/listen",
-							//"records/ward.mp3": wardUrl,
-							"credits.txt": "assetoverrides/credits.txt",
-							"precision/gui.png": "assetoverrides/precision/gui.png",
-							"precision/gui2.png": "assetoverrides/precision/gui2.png",
-							"precision/guismall.png": "assetoverrides/precision/guismall.png",
-							"precision/logo.png": "assetoverrides/precision/logo.png",
-							"precision/precision.png": "assetoverrides/precision/precision.png",
-							"precision/precision2.png": "assetoverrides/precision/precision2.png",
-							"lang/en_US.lang": "assetoverrides/lang/en_US.lang",
-							"gui/demo_bg.png": "assetoverrides/gui/demo_bg.png",
-							"title/bg/panorama0.png": "assetoverrides/title/bg/panorama0.png",
-							"title/bg/panorama1.png": "assetoverrides/title/bg/panorama1.png",
-							"title/bg/panorama2.png": "assetoverrides/title/bg/panorama2.png",
-							"title/bg/panorama3.png": "assetoverrides/title/bg/panorama3.png",
-							"title/bg/panorama4.png": "assetoverrides/title/bg/panorama4.png",
-							"title/bg/panorama5.png": "assetoverrides/title/bg/panorama5.png"
-						},
-						servers: [
-							{ serverName: "A*spixel", serverAddress: "wss://web.asspixel.net/CAPixel/", hideAddress: true },
-							{ serverName: "VanillaCraft", serverAddress: "wss://play.vanillacraftsmp.org/", hideAddress: true },
-							{ serverName: "ArchMC", serverAddress: "wss://web.arch.lol/join", hideAddress: true },
-							{ serverName: "Ayunboom", serverAddress: "wss://sus.shhnowisnottheti.me", hideAddress: true },
-							{ serverName: "Aeon Network", serverAddress: "wss://aeon-network.net/aeon", hideAddress: true },
-							{ serverName: "Sealcraft", serverAddress: "wss://sealcraft.ddns.net:442/servers", hideAddress: true }
-						],
-						relays: [
-							{ addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
-							{ addr: "wss://relay.lax1dude.net/", name: "lax1dude relay #2", primary: relayId == 1 },
-							{ addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
-						],
-						mainMenu: {
-							splashes: [], eaglerLogo: false
-						}
-					};
-					(function () {
-						var q = window.location.search;
-						if (typeof q === 'string' && q.startsWith("?")) {
-							q = new URLSearchParams(q);
-							var s = q.get("server");
-							if (s) window.minecraftOpts.push(s);
-						}
-					})();
-					main();
-				} else
-					alert("You need to select a pack");
-			}
-		}
-		if (localStorage.LastPack)
-			for (Pack of PackSelect.children)
-				if (Pack.value === localStorage.LastPack) {
-					Pack.selected = "selected";
-					break;
-				}
-	</script>
+    <script type="text/javascript">
+        let selectedPack = null;
+
+        // Handle texture pack button clicks
+        document.querySelectorAll('.texture-pack').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.texture-pack').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                selectedPack = button.getAttribute('data-pack');
+            });
+        });
+
+        function Start() {
+            if (!selectedPack) {
+                alert("You need to select a texture pack");
+                return;
+            }
+
+            document.getElementById("launcher").style.display = "none";
+            localStorage.LastPack = selectedPack;
+
+            const relayId = Math.floor(Math.random() * 3);
+            window.eaglercraftOpts = {
+                container: "game_frame",
+                assetsURI: `packs/${selectedPack}.epk`,
+                serverWorkerURI: "worker_bootstrap.js",
+                worldsFolder: "MAIN",
+                servers: [
+                    { serverName: "A*spixel", serverAddress: "wss://web.asspixel.net/CAPixel/", hideAddress: true },
+                    { serverName: "VanillaCraft", serverAddress: "wss://play.vanillacraftsmp.org/", hideAddress: true },
+                    { serverName: "ArchMC", serverAddress: "wss://web.arch.lol/join", hideAddress: true },
+                    { serverName: "Ayunboom", serverAddress: "wss://sus.shhnowisnottheti.me", hideAddress: true },
+                    { serverName: "Aeon Network", serverAddress: "wss://aeon-network.net/aeon", hideAddress: true },
+                    { serverName: "Sealcraft", serverAddress: "wss://sealcraft.ddns.net:442/servers", hideAddress: true }
+                ],
+                relays: [
+                    { addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
+                    { addr: "wss://relay.lax1dude.net/", name: "lax1dude relay #2", primary: relayId == 1 },
+                    { addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
+                ],
+                mainMenu: { splashes: [], eaglerLogo: false }
+            };
+
+            main();
+        }
+
+        if (localStorage.LastPack) {
+            document.querySelector(`[data-pack="${localStorage.LastPack}"]`).classList.add('active');
+            selectedPack = localStorage.LastPack;
+        }
+    </script>
 </body>
 
 </html>
