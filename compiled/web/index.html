@@ -142,16 +142,6 @@
         body {
             animation: fadeIn 1s ease forwards; 
         }
-
-        /* Floating text below the launch button */
-        p.floating-text {
-            font-size: 1.2em;
-            color: #fff;
-            margin-top: 20px;
-            text-align: center;
-            animation: float 3s ease-in-out infinite; /* Apply floating animation */
-        }
-
     </style>
 </head>
 
@@ -175,8 +165,6 @@
         </select>
         <br /><br />
         <input class="starter" type="button" value="Launch" onclick="Start();" />
-        
-        <p class="floating-text">Precsion Launcher revamped by Legcay</p>
     </div>
     <script type="text/javascript">
         if (document.location.href.startsWith("file:")) {
@@ -218,12 +206,47 @@
                             "title/bg/panorama3.png": "assetoverrides/title/bg/panorama3.png",
                             "title/bg/panorama4.png": "assetoverrides/title/bg/panorama4.png",
                             "title/bg/panorama5.png": "assetoverrides/title/bg/panorama5.png"
+                        },
+                        servers: [
+                            { serverName: "A*spixel", serverAddress: "wss://web.asspixel.net/CAPixel/", hideAddress: true },
+                            { serverName: "VanillaCraft", serverAddress: "wss://play.vanillacraftsmp.org/", hideAddress: true },
+                            { serverName: "ArchMC", serverAddress: "wss://web.arch.lol/join", hideAddress: true },
+                            { serverName: "Ayunboom", serverAddress: "wss://sus.shhnowisnottheti.me", hideAddress: true },
+                            { serverName: "Aeon Network", serverAddress: "wss://aeon-network.net/aeon", hideAddress: true },
+                            { serverName: "Sealcraft", serverAddress: "wss://sealcraft.ddns.net:442/servers", hideAddress: true }
+                        ],
+                        relays: [
+                            { addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
+                            { addr: "wss://relay.lax1dude.net/", name: "lax1dude relay #2", primary: relayId == 1 },
+                            { addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
+                        ],
+                        mainMenu: {
+                            splashes: [],
+                            eaglerLogo: false
                         }
                     };
-                    LoadLauncher();
-                }
+                    (function () {
+                        var q = window.location.search;
+                        if (typeof q === 'string' && q.startsWith("?")) {
+                            q = new URLSearchParams(q);
+                            var s = q.get("server");
+                            if (s) window.minecraftOpts.push(s);
+                        }
+                    })();
+                    main();
+                } else
+                    alert("You need to select a pack");
             }
         }
+        setTimeout(() => {
+            document.getElementById("Selection").classList.add("show");
+        }, 100); 
+        if (localStorage.LastPack)
+            for (Pack of PackSelect.children)
+                if (Pack.value === localStorage.LastPack) {
+                    Pack.selected = "selected";
+                    break;
+                }
     </script>
 </body>
 
