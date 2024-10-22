@@ -12,6 +12,7 @@
 	<meta content="en-US" property="og:locale" />
 	<meta content="website" property="og:type" />
 	<meta content="//precisionclient.vercel.app" property="og:url" />
+	<!--meta content="IMAGE" property="og:image"/>-->
 	<meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
 		property="og:description" />
 	<script type="text/javascript" src="eagswebrtc.js"></script>
@@ -29,16 +30,15 @@
 			width: 100vw;
 			height: 100vh;
 			font-family: 'Product Sans';
-			background-image: url("bg.png");
-			background-size: cover;
-			background-repeat: no-repeat;
-			display: flex;
-			justify-content: center;
-			align-items: center;
 			color: #fff;
 		}
 
 		#Selection {
+			display: inline-block;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
 			text-align: center;
 			background-color: rgba(13, 12, 12, 0.8);
 			padding: 20px;
@@ -47,8 +47,12 @@
 		}
 
 		@keyframes fadeIn {
-			from { opacity: 0; }
-			to { opacity: 1; }
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
 		}
 
 		h1 {
@@ -96,10 +100,16 @@
 			background-color: #333;
 			transform: scale(1.05);
 		}
+
+		.gameframe {
+			background-image: url("bg.png");
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
 	</style>
 </head>
 
-<body>
+<body class="gameframe">
 	<div id="Selection">
 		<h1>Precision Client | Legacy</h1>
 		<h3>Select a texture pack:</h3>
@@ -124,13 +134,13 @@
 		const buttons = document.querySelectorAll('.menu-button');
 
 		buttons.forEach(button => {
-			button.addEventListener('click', function() {
+			button.addEventListener('click', function () {
 				// Remove active state from all buttons
 				buttons.forEach(btn => btn.style.backgroundColor = '#0d0c0c');
-				
+
 				// Set active state for the selected button
 				this.style.backgroundColor = '#444';
-				
+
 				// Set selected pack
 				selectedPack = this.getAttribute('data-pack');
 			});
@@ -142,7 +152,7 @@
 				localStorage.LastPack = selectedPack;
 				const relayId = Math.floor(Math.random() * 3);
 				window.eaglercraftOpts = {
-					container: "game_frame",
+					container: "gameframe",
 					assetsURI: `packs/${selectedPack}.epk`,
 					serverWorkerURI: "worker_bootstrap.js",
 					worldsFolder: "MAIN",
