@@ -4,14 +4,16 @@
 <head>
     <title>Precision Client | Legacy</title>
     <meta charset="UTF-8" />
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." name="description" />
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
+        name="description" />
     <meta content="//precisionclient.vercel.app" name="url" />
     <meta content="EtcherFX" name="author" />
     <meta content="Precision Client" property="og:title" />
     <meta content="en-US" property="og:locale" />
     <meta content="website" property="og:type" />
     <meta content="//precisionclient.vercel.app" property="og:url" />
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." property="og:description" />
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
+        property="og:description" />
     <script type="text/javascript" src="eagswebrtc.js"></script>
     <script type="text/javascript" src="classes.js"></script>
     <script async src="https://arc.io/widget.min.js#pchPqjfw"></script>
@@ -21,8 +23,43 @@
             src: url(ProductSans.ttf);
         }
 
-        html {
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            font-family: 'Product Sans';
+            background-image: url("bg.png");
+            background-size: cover;
+            background-repeat: no-repeat;
             color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #Selection {
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            border-radius: 10px;
+            border: 1px solid #fff;
+            background-color: #0d0c0c;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #1a1a1a;
+            transform: scale(1.05);
         }
 
         .starter {
@@ -32,53 +69,31 @@
             color: #fff;
             padding: 10px 20px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
 
         .starter:hover {
             background-color: #1a1a1a;
         }
-
-        .pack-button {
-            border-radius: 15px;
-            border: 1px solid #fff;
-            background-color: #0d0c0c;
-            color: #fff;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.3s ease;
-        }
-
-        .pack-button:hover {
-            background-color: #1a1a1a;
-            transform: scale(1.05);
-        }
-
-        .gameframe {
-            background-image: url("bg.png");
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
     </style>
 </head>
 
-<body style="margin: 0; width: 100vw; height: 100vh; font-family: 'Product Sans'" id="game_frame" class="gameframe">
-    <div id="Selection" style="display: inline-block; position: absolute; top:50%; left: 50%; transform: translate(-50%, -50%)">
+<body id="game_frame" class="gameframe">
+    <div id="Selection">
         <h1>Precision Client | Legacy</h1>
         <h3>Select a texture pack:</h3>
         <div id="packButtons">
-            <button class="pack-button" onclick="selectPack('defaultold')">Default Old</button>
-            <button class="pack-button" onclick="selectPack('defaultnew')">Default 1.17+</button>
-            <button class="pack-button" onclick="selectPack('bombies')">Bombies 180k</button>
-            <button class="pack-button" onclick="selectPack('bones')">Bare Bones</button>
-            <button class="pack-button" onclick="selectPack('modifiednew')">Modified 1.17+</button>
-            <button class="pack-button" onclick="selectPack('miamiprivate')">Miami Private</button>
-            <button class="pack-button" onclick="selectPack('nebula')">Nebula</button>
-            <button class="pack-button" onclick="selectPack('rhedd')">Rhedd</button>
-            <button class="pack-button" onclick="selectPack('ricefault')">Ricefault</button>
-            <button class="pack-button" onclick="selectPack('tightfault')">Tightfault</button>
-            <button class="pack-button" onclick="selectPack('walifault')">Walifault</button>
+            <button class="button" onclick="selectPack('defaultold')">Default Old</button>
+            <button class="button" onclick="selectPack('defaultnew')">Default 1.17+</button>
+            <button class="button" onclick="selectPack('bombies')">Bombies 180k</button>
+            <button class="button" onclick="selectPack('bones')">Bare Bones</button>
+            <button class="button" onclick="selectPack('modifiednew')">Modified 1.17+</button>
+            <button class="button" onclick="selectPack('miamiprivate')">Miami Private</button>
+            <button class="button" onclick="selectPack('nebula')">Nebula</button>
+            <button class="button" onclick="selectPack('rhedd')">Rhedd</button>
+            <button class="button" onclick="selectPack('ricefault')">Ricefault</button>
+            <button class="button" onclick="selectPack('tightfault')">Tightfault</button>
+            <button class="button" onclick="selectPack('walifault')">Walifault</button>
         </div>
         <br />
         <input class="starter" type="button" value="Launch" onclick="Start();" />
@@ -87,81 +102,72 @@
         if (document.location.href.startsWith("file:")) {
             alert("You cannot 'open' this file in your browser, the code doesn't work. Upload this folder to your HTTP(s) server and access it via the internet to launch the stable-download game. This is not a bug, please read the documentation.");
         } else {
-            let selectedPack = '';
-
             function selectPack(pack) {
-                selectedPack = pack;
-                document.getElementById("Selection").style.display = "none";
-                localStorage.LastPack = selectedPack;
+                localStorage.LastPack = pack;
+                document.getElementById("packButtons").style.display = "none";
+                Start();
             }
 
             function Start() {
-                if (selectedPack) {
-                    const relayId = Math.floor(Math.random() * 3);
-                    window.eaglercraftOpts = {
-                        container: "game_frame",
-                        assetsURI: `packs/${selectedPack}.epk`,
-                        serverWorkerURI: "worker_bootstrap.js",
-                        worldsFolder: "MAIN",
-                        assetOverrides: {
-                            "records/wait.mp3": "wait.mp3",
-                            "records/mellohi.mp3": "https://stream.nightride.fm/chillsynth.m4a",
-                            "records/far.mp3": "https://stream.nightride.fm/nightride.m4a",
-                            "records/cat.mp3": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1",
-                            "records/ward.mp3": "http://fr4.1mix.co.uk:8000/192h",
-                            "records/strad.mp3": "http://listen.011fm.com:8028/stream15",
-                            "records/blocks.mp3": "https://www.ophanim.net:8444/s/9780",
-                            "records/13.mp3": "https://s2.radio.co/s2b2b68744/listen",
-                            "credits.txt": "assetoverrides/credits.txt",
-                            "precision/gui.png": "assetoverrides/precision/gui.png",
-                            "precision/gui2.png": "assetoverrides/precision/gui2.png",
-                            "precision/guismall.png": "assetoverrides/precision/guismall.png",
-                            "precision/logo.png": "assetoverrides/precision/logo.png",
-                            "precision/precision.png": "assetoverrides/precision/precision.png",
-                            "precision/precision2.png": "assetoverrides/precision/precision2.png",
-                            "lang/en_US.lang": "assetoverrides/lang/en_US.lang",
-                            "gui/demo_bg.png": "assetoverrides/gui/demo_bg.png",
-                            "title/bg/panorama0.png": "assetoverrides/title/bg/panorama0.png",
-                            "title/bg/panorama1.png": "assetoverrides/title/bg/panorama1.png",
-                            "title/bg/panorama2.png": "assetoverrides/title/bg/panorama2.png",
-                            "title/bg/panorama3.png": "assetoverrides/title/bg/panorama3.png",
-                            "title/bg/panorama4.png": "assetoverrides/title/bg/panorama4.png",
-                            "title/bg/panorama5.png": "assetoverrides/title/bg/panorama5.png"
-                        },
-                        servers: [
-                            { serverName: "A*spixel", serverAddress: "wss://web.asspixel.net/CAPixel/", hideAddress: true },
-                            { serverName: "VanillaCraft", serverAddress: "wss://play.vanillacraftsmp.org/", hideAddress: true },
-                            { serverName: "ArchMC", serverAddress: "wss://web.arch.lol/join", hideAddress: true },
-                            { serverName: "Ayunboom", serverAddress: "wss://sus.shhnowisnottheti.me", hideAddress: true },
-                            { serverName: "Aeon Network", serverAddress: "wss://aeon-network.net/aeon", hideAddress: true },
-                            { serverName: "Sealcraft", serverAddress: "wss://sealcraft.ddns.net:442/servers", hideAddress: true }
-                        ],
-                        relays: [
-                            { addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
-                            { addr: "wss://relay.lax1dude.net/", name: "lax1dude relay #2", primary: relayId == 1 },
-                            { addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
-                        ],
-                        mainMenu: {
-                            splashes: [], eaglerLogo: false
-                        }
-                    };
-                    (function () {
-                        var q = window.location.search;
-                        if (typeof q === 'string' && q.startsWith("?")) {
-                            q = new URLSearchParams(q);
-                            var s = q.get("server");
-                            if (s) window.minecraftOpts.push(s);
-                        }
-                    })();
-                    main();
-                } else {
-                    alert("You need to select a pack");
-                }
+                const relayId = Math.floor(Math.random() * 3);
+                window.eaglercraftOpts = {
+                    container: "game_frame",
+                    assetsURI: `packs/${localStorage.LastPack}.epk`,
+                    serverWorkerURI: "worker_bootstrap.js",
+                    worldsFolder: "MAIN",
+                    assetOverrides: {
+                        "records/wait.mp3": "wait.mp3",
+                        "records/mellohi.mp3": "https://stream.nightride.fm/chillsynth.m4a",
+                        "records/far.mp3": "https://stream.nightride.fm/nightride.m4a",
+                        "records/cat.mp3": "http://usa9.fastcast4u.com/proxy/jamz?mp=/1",
+                        "records/ward.mp3": "http://fr4.1mix.co.uk:8000/192h",
+                        "records/strad.mp3": "http://listen.011fm.com:8028/stream15",
+                        "records/blocks.mp3": "https://www.ophanim.net:8444/s/9780",
+                        "records/13.mp3": "https://s2.radio.co/s2b2b68744/listen",
+                        //"records/ward.mp3": wardUrl,
+                        "credits.txt": "assetoverrides/credits.txt",
+                        "precision/gui.png": "assetoverrides/precision/gui.png",
+                        "precision/gui2.png": "assetoverrides/precision/gui2.png",
+                        "precision/guismall.png": "assetoverrides/precision/guismall.png",
+                        "precision/logo.png": "assetoverrides/precision/logo.png",
+                        "precision/precision.png": "assetoverrides/precision/precision.png",
+                        "precision/precision2.png": "assetoverrides/precision/precision2.png",
+                        "lang/en_US.lang": "assetoverrides/lang/en_US.lang",
+                        "gui/demo_bg.png": "assetoverrides/gui/demo_bg.png",
+                        "title/bg/panorama0.png": "assetoverrides/title/bg/panorama0.png",
+                        "title/bg/panorama1.png": "assetoverrides/title/bg/panorama1.png",
+                        "title/bg/panorama2.png": "assetoverrides/title/bg/panorama2.png",
+                        "title/bg/panorama3.png": "assetoverrides/title/bg/panorama3.png",
+                        "title/bg/panorama4.png": "assetoverrides/title/bg/panorama4.png",
+                        "title/bg/panorama5.png": "assetoverrides/title/bg/panorama5.png"
+                    },
+                    servers: [
+                        { serverName: "A*spixel", serverAddress: "wss://web.asspixel.net/CAPixel/", hideAddress: true },
+                        { serverName: "VanillaCraft", serverAddress: "wss://play.vanillacraftsmp.org/", hideAddress: true },
+                        { serverName: "ArchMC", serverAddress: "wss://web.arch.lol/join", hideAddress: true },
+                        { serverName: "Ayunboom", serverAddress: "wss://sus.shhnowisnottheti.me", hideAddress: true },
+                        { serverName: "Aeon Network", serverAddress: "wss://aeon-network.net/aeon", hideAddress: true },
+                        { serverName: "Sealcraft", serverAddress: "wss://sealcraft.ddns.net:442/servers", hideAddress: true }
+                    ],
+                    relays: [
+                        { addr: "wss://relay.deev.is/", name: "lax1dude relay #1", primary: relayId == 0 },
+                        { addr: "wss://relay.lax1dude.net/", name: "lax1dude relay #2", primary: relayId == 1 },
+                        { addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
+                    ],
+                    mainMenu: {
+                        splashes: [], eaglerLogo: false
+                    }
+                };
+                (function () {
+                    var q = window.location.search;
+                    if (typeof q === 'string' && q.startsWith("?")) {
+                        q = new URLSearchParams(q);
+                        var s = q.get("server");
+                        if (s) window.minecraftOpts.push(s);
+                    }
+                })();
+                main();
             }
-        }
-
-        if (localStorage.LastPack) {
-            selectPack(localStorage.LastPack);
         }
     </script>
 </body>
