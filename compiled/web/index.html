@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Precision Client | Legacy</title>
+    <meta charset="UTF-8" />
     <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." name="description" />
     <meta content="//precisionclient.vercel.app" name="url" />
     <meta content="EtcherFX" name="author" />
@@ -12,6 +11,7 @@
     <meta content="en-US" property="og:locale" />
     <meta content="website" property="og:type" />
     <meta content="//precisionclient.vercel.app" property="og:url" />
+    <!--meta content="IMAGE" property="og:image"/>-->
     <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." property="og:description" />
     <script type="text/javascript" src="eagswebrtc.js"></script>
     <script type="text/javascript" src="classes.js"></script>
@@ -22,48 +22,16 @@
             src: url(ProductSans.ttf);
         }
 
-        html {
-            color: #fff;
-            font-family: 'Product Sans', sans-serif;
-            scroll-behavior: smooth; /* Smooth scrolling */
-        }
-
         body {
             margin: 0;
             width: 100vw;
             height: 100vh;
-            overflow: hidden; /* Prevents scrolling */
-            background-image: url("bg.png");
-            background-size: cover;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px); /* Adds a blur effect behind */
+            font-family: 'Product Sans';
+            background-color: #0d0c0c; /* Added for better contrast */
         }
 
-        #Selection {
-            text-align: center;
-            opacity: 0; /* Start hidden for animation */
-            transform: translateY(-20px); /* Slightly move up for animation */
-            transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
-        }
-
-        #Selection.show {
-            opacity: 1; /* Show the selection */
-            transform: translateY(0); /* Reset position */
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 2.5em;
-            transition: color 0.3s ease; /* Smooth color transition */
-        }
-
-        h3 {
-            margin: 0;
-            font-size: 1.5em;
-            margin-bottom: 20px;
+        html {
+            color: #fff;
         }
 
         .starter {
@@ -73,13 +41,12 @@
             color: #fff;
             padding: 10px 20px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease; /* Smooth background transition */
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .starter:hover {
-            background-color: #ffcc00; /* Change on hover */
-            color: #000; /* Change text color on hover */
+            background-color: #1a1a1a;
+            transform: scale(1.05);
         }
 
         .dropdown {
@@ -87,69 +54,86 @@
             display: inline-block;
             border-radius: 5px;
             border: 1px solid #fff;
-            background-color: #1c1c1c;
+            background-color: #0d0c0c;
             color: #fff;
-            font-size: 16px;
             padding: 10px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            width: 200px; /* Fixed width for consistency */
+        }
+
+        .dropdown:hover {
+            background-color: #1a1a1a;
+        }
+
+        .dropdown select {
             appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            transition: border-color 0.3s ease; /* Smooth border transition */
+            background: transparent;
+            border: none;
+            color: inherit;
+            font-size: inherit;
+            cursor: pointer;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
         }
 
-        .dropdown:focus {
+        .dropdown select:focus {
             outline: none;
-            border-color: #ffcc00;
         }
 
-        .dropdown option {
-            background-color: #1c1c1c;
+        .dropdown::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
             color: #fff;
-            transition: background-color 0.3s ease; /* Smooth background transition */
+            pointer-events: none; /* Prevent click interference */
+            transition: transform 0.2s;
         }
 
-        .dropdown option:hover {
-            background-color: #ffcc00;
+        .dropdown select:focus + .dropdown::after {
+            transform: translateY(-50%) rotate(180deg); /* Rotate arrow on focus */
         }
 
-        /* Add a smooth entrance for the entire content */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .gameframe {
+            background-image: url("bg.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Center items vertically */
         }
 
-        body {
-            animation: fadeIn 1s ease forwards; /* Smooth fade in */
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body id="game_frame" class="gameframe">
-    <div id="Selection" class="show">
+    <div id="Selection" style="display: inline-block;">
         <h1>Precision Client | Legacy</h1>
         <h3>Select a texture pack:</h3>
-        <select id="Packs" class="dropdown">
-            <option>-- Choose one --</option>
-            <option value="defaultold">Default Old</option>
-            <option value="defaultnew">Default 1.17+</option>
-            <option value="bombies">Bombies 180k</option>
-            <option value="bones">Bare Bones</option>
-            <option value="modifiednew">Modified 1.17+</option>
-            <option value="miamiprivate">Miami Private</option>
-            <option value="nebula">Nebula</option>
-            <option value="rhedd">Rhedd</option>
-            <option value="ricefault">Ricefault</option>
-            <option value="tightfault">Tightfault</option>
-            <option value="walifault">Walifault</option>
-        </select>
+        <div class="dropdown">
+            <select id="Packs">
+                <option>-- Choose one --</option>
+                <option value="defaultold">Default Old</option>
+                <option value="defaultnew">Default 1.17+</option>
+                <option value="bombies">Bombies 180k</option>
+                <option value="bones">Bare Bones</option>
+                <option value="modifiednew">Modified 1.17+</option>
+                <option value="miamiprivate">Miami Private</option>
+                <option value="nebula">Nebula</option>
+                <option value="rhedd">Rhedd</option>
+                <option value="ricefault">Ricefault</option>
+                <option value="tightfault">Tightfault</option>
+                <option value="walifault">Walifault</option>
+            </select>
+        </div>
         <br /><br />
         <input class="starter" type="button" value="Launch" onclick="Start();" />
     </div>
@@ -208,8 +192,7 @@
                             { addr: "wss://relay.shhnowisnottheti.me/", name: "ayunami relay #1", primary: relayId == 2 }
                         ],
                         mainMenu: {
-                            splashes: [],
-                            eaglerLogo: false
+                            splashes: [], eaglerLogo: false
                         }
                     };
                     (function () {
@@ -225,11 +208,6 @@
                     alert("You need to select a pack");
             }
         }
-        // Display the selection menu with animation
-        setTimeout(() => {
-            document.getElementById("Selection").classList.add("show");
-        }, 100); // Delay to trigger animation
-        // Restore last selected pack if available
         if (localStorage.LastPack)
             for (Pack of PackSelect.children)
                 if (Pack.value === localStorage.LastPack) {
