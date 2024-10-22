@@ -4,16 +4,15 @@
 <head>
     <title>Precision Client | Legacy</title>
     <meta charset="UTF-8" />
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
-        name="description" />
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." name="description" />
     <meta content="//precisionclient.vercel.app" name="url" />
     <meta content="EtcherFX" name="author" />
     <meta content="Precision Client" property="og:title" />
     <meta content="en-US" property="og:locale" />
     <meta content="website" property="og:type" />
     <meta content="//precisionclient.vercel.app" property="og:url" />
-    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more."
-        property="og:description" />
+    <!--meta content="IMAGE" property="og:image"/>-->
+    <meta content="Precision Client is a custom eaglercraft client with QOL features, custom texture packs, and more." property="og:description" />
     <script type="text/javascript" src="eagswebrtc.js"></script>
     <script type="text/javascript" src="classes.js"></script>
     <script async src="https://arc.io/widget.min.js#pchPqjfw"></script>
@@ -28,47 +27,11 @@
             width: 100vw;
             height: 100vh;
             font-family: 'Product Sans';
-            background-image: url("bg.png");
-            background-size: cover;
-            background-repeat: no-repeat;
+            background-color: #0d0c0c; /* Added for better contrast */
+        }
+
+        html {
             color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #Selection {
-            text-align: center;
-            background-color: rgba(13, 12, 12, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            margin-bottom: 15px;
-        }
-
-        .button {
-            border-radius: 10px;
-            border: 1px solid #fff;
-            background-color: #0d0c0c;
-            color: #fff;
-            padding: 10px 20px;
-            margin: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            font-size: 16px;
-            width: 200px; /* Fixed width for uniformity */
-        }
-
-        .button:hover {
-            background-color: #1a1a1a;
-            transform: scale(1.05);
         }
 
         .starter {
@@ -78,34 +41,100 @@
             color: #fff;
             padding: 10px 20px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .starter:hover {
             background-color: #1a1a1a;
+            transform: scale(1.05);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            border-radius: 5px;
+            border: 1px solid #fff;
+            background-color: #0d0c0c;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 200px; /* Fixed width for consistency */
+        }
+
+        .dropdown:hover {
+            background-color: #1a1a1a;
+        }
+
+        .dropdown select {
+            appearance: none;
+            background: transparent;
+            border: none;
+            color: inherit;
+            font-size: inherit;
+            cursor: pointer;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .dropdown select:focus {
+            outline: none;
+        }
+
+        .dropdown::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            pointer-events: none; /* Prevent click interference */
+            transition: transform 0.2s;
+        }
+
+        .dropdown select:focus + .dropdown::after {
+            transform: translateY(-50%) rotate(180deg); /* Rotate arrow on focus */
+        }
+
+        .gameframe {
+            background-image: url("bg.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Center items vertically */
+        }
+
+        h1, h3 {
+            text-align: center;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body id="game_frame" class="gameframe">
-    <div id="Selection">
+    <div id="Selection" style="display: inline-block;">
         <h1>Precision Client | Legacy</h1>
         <h3>Select a texture pack:</h3>
-        <div id="packButtons">
-            <button class="button" onclick="selectPack('defaultold')">Default Old</button>
-            <button class="button" onclick="selectPack('defaultnew')">Default 1.17+</button>
-            <button class="button" onclick="selectPack('bombies')">Bombies 180k</button>
-            <button class="button" onclick="selectPack('bones')">Bare Bones</button>
-            <button class="button" onclick="selectPack('modifiednew')">Modified 1.17+</button>
-            <button class="button" onclick="selectPack('miamiprivate')">Miami Private</button>
-            <button class="button" onclick="selectPack('nebula')">Nebula</button>
-            <button class="button" onclick="selectPack('rhedd')">Rhedd</button>
-            <button class="button" onclick="selectPack('ricefault')">Ricefault</button>
-            <button class="button" onclick="selectPack('tightfault')">Tightfault</button>
-            <button class="button" onclick ="selectPack('walifault')">Walifault</button>
+        <div class="dropdown">
+            <select id="Packs">
+                <option>-- Choose one --</option>
+                <option value="defaultold">Default Old</option>
+                <option value="defaultnew">Default 1.17+</option>
+                <option value="bombies">Bombies 180k</option>
+                <option value="bones">Bare Bones</option>
+                <option value="modifiednew">Modified 1.17+</option>
+                <option value="miamiprivate">Miami Private</option>
+                <option value="nebula">Nebula</option>
+                <option value="rhedd">Rhedd</option>
+                <option value="ricefault">Ricefault</option>
+                <option value="tightfault">Tightfault</option>
+                <option value="walifault">Walifault</option>
+            </select>
         </div>
-        <br />
+        <br /><br />
         <input class="starter" type="button" value="Launch" onclick="Start();" />
     </div>
     <script type="text/javascript">
@@ -113,17 +142,15 @@
             alert("You cannot 'open' this file in your browser, the code doesn't work. Upload this folder to your HTTP(s) server and access it via the internet to launch the stable-download game. This is not a bug, please read the documentation.");
         } else {
             var PackSelect = document.getElementById("Packs");
-            function selectPack(Selected) {
-                localStorage.LastPack = Selected;
-                document.getElementById("Selection").style.display = "none";
-            }
-
             function Start() {
-                if (localStorage.LastPack) {
+                if (PackSelect.selectedIndex !== 0) {
+                    var Selected = PackSelect.options[PackSelect.selectedIndex].value;
+                    document.getElementById("Selection").style.display = "none";
+                    localStorage.LastPack = Selected;
                     const relayId = Math.floor(Math.random() * 3);
                     window.eaglercraftOpts = {
                         container: "game_frame",
-                        assetsURI: `packs/${localStorage.LastPack}.epk`,
+                        assetsURI: `packs/${Selected}.epk`,
                         serverWorkerURI: "worker_bootstrap.js",
                         worldsFolder: "MAIN",
                         assetOverrides: {
@@ -135,7 +162,6 @@
                             "records/strad.mp3": "http://listen.011fm.com:8028/stream15",
                             "records/blocks.mp3": "https://www.ophanim.net:8444/s/9780",
                             "records/13.mp3": "https://s2.radio.co/s2b2b68744/listen",
-                            //"records/ward.mp3": wardUrl,
                             "credits.txt": "assetoverrides/credits.txt",
                             "precision/gui.png": "assetoverrides/precision/gui.png",
                             "precision/gui2.png": "assetoverrides/precision/gui2.png",
@@ -182,6 +208,12 @@
                     alert("You need to select a pack");
             }
         }
+        if (localStorage.LastPack)
+            for (Pack of PackSelect.children)
+                if (Pack.value === localStorage.LastPack) {
+                    Pack.selected = "selected";
+                    break;
+                }
     </script>
 </body>
 
